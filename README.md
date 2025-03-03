@@ -10,6 +10,7 @@
 	- https://www.nuget.org/packages/Marqdouj.MailDev.Host/
   ### Email service using Azure for production:
   - https://learn.microsoft.com/en-us/azure/communication-services/concepts/email/email-overview
+  ### Custom exception handler in API that uses Email service to notify dev team.
 
 ## Containers
   - Some components require a container service. Demo was created using Docker Desktop: https://www.docker.com/products/docker-desktop/

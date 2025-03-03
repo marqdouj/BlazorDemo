@@ -98,7 +98,7 @@ namespace AspireDemo.ApiService.Services
             };
             //message.From.Add(settings.Sender);
             message.To.AddRange(settings.ErrorRecipients);
-            message.Subject = $"PIMS Exception - {exception.Source}";
+            message.Subject = $"DEMO Exception - {exception.Source}";
 
             var body = new StringBuilder();
             body.AppendLine("The following exception has occurred:");
@@ -135,7 +135,7 @@ namespace AspireDemo.ApiService.Services
             jsonSettings.Bind(config);
 
             var settings = new EmailServiceSettings(
-                new MailboxAddress("PIMS", config.Sender),
+                new MailboxAddress("DEMO", config.Sender),
                 [.. config.ErrorRecipients!.Select(e => new MailboxAddress("", e))],
                 config.ConnectionString);
 
