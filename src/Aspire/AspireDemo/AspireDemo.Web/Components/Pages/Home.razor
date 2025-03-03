@@ -1,12 +1,23 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<FluentLayout>
-    <FluentHeader>Home</FluentHeader>
-    <FluentStack Orientation="Orientation.Vertical">
-        <FluentLabel Typo="Typography.H5">Hello!</FluentLabel>
-        <FluentLabel>Welcome to the Blazor Aspire demo.</FluentLabel>
-    </FluentStack>
-</FluentLayout>
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentLabel Typo="Typography.H1">Welcome.</FluentLabel>
+    <br />
+    <FluentLabel>@subscribedMessage</FluentLabel>
+    <Newsletter SubscribeChanged="@OnSubscribeChanged" />
+</FluentStack>
 
+
+@code {
+    private bool subscribed;
+    private string subscribedMessage => subscribed ? "Thank you for subscribing to our newsletter." : "Please subscribe to our newsletter.";
+
+    private void OnSubscribeChanged(bool value)
+    {
+        subscribed = value;
+        StateHasChanged();
+    }
+}

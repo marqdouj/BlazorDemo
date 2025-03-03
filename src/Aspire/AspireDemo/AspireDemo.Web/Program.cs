@@ -18,7 +18,7 @@ builder.Services.AddFluentUIComponents();
 
 builder.Services.AddOutputCache();
 
-builder.Services.AddHttpClient<ApiServiceClient>(client =>
+builder.Services.AddHttpClient<IApiServiceClient, ApiServiceClient>(client =>
     {
         // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
         // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
