@@ -1,4 +1,5 @@
 using AspireDemo.ApiService.EndPoints;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,12 @@ app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    app.MapScalarApiReference(options =>
+    {
+        options.DefaultFonts = false; // Disable default fonts to avoid download unnecessary fonts
+        options.Servers = []; //Required in Aspire
+    });
 }
 
 app.MapWeatherApi();
