@@ -2,9 +2,14 @@
 
 ## Overview
   ### Web front-end created using Fluent Blazor components: https://www.fluentui-blazor.net/
-  ### Email service using MailDev/MailKit for testing:
+  ### Email service using MailDev/MailKit for development:
   - MailDev: https://github.com/maildev/maildev
   - MailKit: https://github.com/jstedfast/MailKit
+	#### NuGet packages that wrap MailDev/MailKit:
+	- https://www.nuget.org/packages/Marqdouj.Aspire.MailKit.Client/
+	- https://www.nuget.org/packages/Marqdouj.MailDev.Host/
+  ### Email service using Azure for production:
+  - https://learn.microsoft.com/en-us/azure/communication-services/concepts/email/email-overview
 
 ## Containers
   - Some components require a container service. Demo was created using Docker Desktop: https://www.docker.com/products/docker-desktop/

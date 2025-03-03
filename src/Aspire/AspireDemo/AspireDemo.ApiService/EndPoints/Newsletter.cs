@@ -1,7 +1,4 @@
-﻿using MailKit.Net.Smtp;
-using Marqdouj.Aspire.MailKit.Client;
-using MimeKit;
-using System.Net.Mail;
+﻿using AspireDemo.ApiService.Services;
 
 namespace AspireDemo.ApiService.EndPoints
 {
@@ -24,36 +21,20 @@ namespace AspireDemo.ApiService.EndPoints
             })
             .WithName("Is-Subscribed");
 
-            app.MapPost("/newsletter/subscribe",
-                async (MailKitClientFactory factory, string email) =>
-                {
-                    email = GetEmail(email);
-                    ISmtpClient client = await factory.GetSmtpClientAsync();
-
-                    using var message = new MailMessage("newsletter@yourcompany.com", email)
-                    {
-                        Subject = "Welcome to our newsletter!",
-                        Body = "Thank you for subscribing to our newsletter!"
-                    };
-
-                    await client.SendAsync(MimeMessage.CreateFromMailMessage(message));
-                })
+            app.MapPost("/newsletter/subscribe", async (IEmailService service, string email) =>
+            {
+                email = GetEmail(email);
+                var message = service.BuildNewsletterMessage(email, true);
+                await service.SendEmail(message);
+            })
             .WithName("Subscribe");
 
-            app.MapPost("/newsletter/unsubscribe",
-                async (MailKitClientFactory factory, string email) =>
-                {
-                    email = GetEmail(email);
-                    ISmtpClient client = await factory.GetSmtpClientAsync();
-
-                    using var message = new MailMessage("newsletter@yourcompany.com", email)
-                    {
-                        Subject = "You are unsubscribed from our newsletter!",
-                        Body = "Sorry to see you go. We hope you will come back soon!"
-                    };
-
-                    await client.SendAsync(MimeMessage.CreateFromMailMessage(message));
-                })
+            app.MapPost("/newsletter/unsubscribe", async (IEmailService service, string email) =>
+            {
+                email = GetEmail(email);
+                var message = service.BuildNewsletterMessage(email, false);
+                await service.SendEmail(message);
+            })
             .WithName("Unsubscribe");
         }
     }
