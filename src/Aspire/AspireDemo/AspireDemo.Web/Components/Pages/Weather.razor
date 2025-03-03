@@ -1,0 +1,51 @@
+﻿@page "/weather"
+@rendermode InteractiveServer
+@attribute [OutputCache(Duration = 5)]
+
+@inject ApiServiceClient WeatherApi
+
+<PageTitle>Weather</PageTitle>
+
+<FluentLayout>
+    <FluentHeader>Weather</FluentHeader>
+
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel Typo="Typography.H3">This component demonstrates showing data loaded from a backend API service.</FluentLabel>
+
+        <div style="display: table; table-layout: fixed; width: 100%;">
+            <div style="overflow-x: auto;">
+                <FluentDataGrid Items="@forecasts" Style="min-width: max-content;" TGridItem="WeatherForecast">
+                    <ChildContent>
+                        <PropertyColumn Title="Date" Property="@(c => c!.Date)" Sortable="true" Align="Align.Start" />
+                        <PropertyColumn Title="Temp. (C)" Property="@(c => c!.TemperatureC)" Sortable="true" Align="Align.Center" />
+                        <PropertyColumn Title="Temp. (F)" Property="@(c => c!.TemperatureF)" Sortable="true" Align="Align.Center" />
+                        <PropertyColumn Title="Summary" Property="@(c => c!.Summary)" Sortable="true" Align="Align.End" />
+                    </ChildContent>
+                    <EmptyContent>
+                        <FluentLabel Typo="Typography.H6">No data to display.</FluentLabel>
+                    </EmptyContent>
+                </FluentDataGrid>
+            </div>
+        </div>
+    </FluentStack>
+</FluentLayout>
+
+<FluentOverlay Visible="@loading" Opacity="0.4">
+    <FluentProgressRing />
+</FluentOverlay>
+
+@code {
+    private IQueryable<WeatherForecast>? forecasts;
+    private bool loading = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(300); // Simulate loading delay
+            forecasts = await WeatherApi.Weather.GetWeatherAsync();
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}
