@@ -3,21 +3,8 @@
 
 <PageTitle>Home</PageTitle>
 
-<FluentStack Orientation="Orientation.Vertical">
-    <FluentLabel Typo="Typography.H1">Welcome.</FluentLabel>
-    <br />
-    <FluentLabel>@subscribedMessage</FluentLabel>
-    <Newsletter SubscribeChanged="@OnSubscribeChanged" />
-</FluentStack>
-
+<FluentLabel Typo="Typography.H1">Welcome to my Blazor Aspire demo.</FluentLabel>
 
 @code {
-    private bool subscribed;
-    private string subscribedMessage => subscribed ? "Thank you for subscribing to our newsletter." : "Please subscribe to our newsletter.";
 
-    private void OnSubscribeChanged(bool value)
-    {
-        subscribed = value;
-        StateHasChanged();
-    }
 }

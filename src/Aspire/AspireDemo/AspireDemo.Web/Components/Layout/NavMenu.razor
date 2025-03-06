@@ -1,11 +1,17 @@
-﻿<div class="navmenu">
+﻿@rendermode InteractiveServer
+
+<div class="navmenu">
     <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
     <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
     <nav class="sitenav" aria-labelledby="main-menu">
-        <FluentNavMenu Id="main-menu" Collapsible="true" Width="250" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true">
+        <FluentNavMenu Id="main-menu" Collapsible="true" CollapsedChildNavigation="true" Width="250" Title="Navigation menu" @bind-Expanded="expanded">
             <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
             <FluentNavLink Href="counter" Icon="@(new Icons.Regular.Size20.NumberSymbolSquare())" IconColor="Color.Accent">Counter</FluentNavLink>
             <FluentNavLink Href="weather" Icon="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Weather</FluentNavLink>
+            <FluentNavGroup Title="Custom NuGet" Icon="@(new Icons.Regular.Size20.DesignIdeas())" IconColor="Color.Accent">
+                <FluentNavLink Href="custom-clr" Icon="@(new Icons.Regular.Size20.Subtitles())" IconColor="Color.Accent">CLR Common</FluentNavLink>
+                <FluentNavLink Href="custom-email" Icon="@(new Icons.Regular.Size20.Mail())" IconColor="Color.Accent">Email</FluentNavLink>
+            </FluentNavGroup>
         </FluentNavMenu>
     </nav>
 </div>
