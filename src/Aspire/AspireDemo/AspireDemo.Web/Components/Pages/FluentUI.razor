@@ -1,0 +1,43 @@
+﻿@page "/fluent-ui"
+@rendermode InteractiveServer
+
+<FluentLayout>
+    <FluentHeader>Fluent UI</FluentHeader>
+    
+    <FluentStack Orientation="Orientation.Vertical">
+        <div>
+            <FluentAnchor Href="https://github.com/marqdouj/FluentUI" Target="_blank" IconStart="@(new Icons.Regular.Size20.Globe())">
+                Project Website
+            </FluentAnchor>
+        </div>
+
+        <FluentCard>
+            <FluentStack Orientation="Orientation.Horizontal">
+                <FluentLabel>ThemeSwitch:</FluentLabel>
+                <ThemeSwitch />
+            </FluentStack>
+        </FluentCard>
+
+        <FluentCard>
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentLabel>Slideshow:</FluentLabel>
+                <div>
+                    <Slideshow Images="@images" Width="400" Height="200" AutoSlideSeconds="3"/>
+                </div>
+            </FluentStack>
+
+        </FluentCard>
+    </FluentStack>
+</FluentLayout>
+
+@code {
+    private readonly List<SlideshowImage> images = new();
+
+    protected override void OnInitialized()
+    {
+        for (int i = 1; i < 7; i++)
+        {
+            images.Add(new SlideshowImage(i, $"banner/Banner{i}.png", $"Image #{i}"));
+        }
+    }
+}
