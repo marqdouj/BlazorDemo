@@ -1,22 +1,31 @@
 ﻿@page "/counter"
 @rendermode InteractiveServer
+@inject CounterState State
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<FluentLayout>
+    <FluentHeader>Counter</FluentHeader>
 
-<div role="status" style="padding-bottom: 1em;">
-    Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge>
-</div>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel Typo="Typography.H5">
+            The Counter page uses an in-memory 'State Container' to preserve the current value while navigating between pages.
+        </FluentLabel>
 
-<FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton>
+        <div role="status" style="padding-bottom: 1em;">
+            Current count: <FluentBadge Appearance="Appearance.Neutral">@currentCount</FluentBadge>
+        </div>
+
+        <FluentButton Appearance="Appearance.Accent" @onclick="IncrementCount">Click me</FluentButton>
+    </FluentStack>
+</FluentLayout>
 
 @code {
-    private int currentCount = 0;
+    private int currentCount => State.CurrentCount;
 
     private void IncrementCount()
     {
-        currentCount++;
+        State.CurrentCount++;
     }
 }
 
