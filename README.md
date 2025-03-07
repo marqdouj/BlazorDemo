@@ -4,7 +4,7 @@
 ### Web front-end created using Fluent Blazor components: https://www.fluentui-blazor.net/
 - includes demo of my own custom FluentUI components
 ### Html ResizeObserver
-- Demo on how to use ResizeObserver in Blazor with my custom component
+- Demo on how to use ResizeObserver in Blazor with my custom component: https://github.com/marqdouj/HtmlResizeObserver
 ### Email service using MailDev/MailKit for development:
 - MailDev: https://github.com/maildev/maildev
 - MailKit: https://github.com/jstedfast/MailKit
