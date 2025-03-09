@@ -11,8 +11,15 @@ var maildev = builder.AddMailDev(
     userName: mailDevUsername,
     password: mailDevPassword);
 
+var sql = builder.AddSqlServer("sql")
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent)
+    .AddDatabase("PIMS");
+
 var apiService = builder.AddProject<Projects.AspireDemo_ApiService>("apiservice")
-    .WithReference(maildev);
+    .WithReference(maildev)
+    .WithReference(sql)
+    .WaitFor(sql);
 
 builder.AddProject<Projects.AspireDemo_Web>("webfrontend")
     .WithExternalHttpEndpoints()

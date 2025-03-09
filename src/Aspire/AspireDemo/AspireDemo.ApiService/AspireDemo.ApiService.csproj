@@ -8,14 +8,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspireDemo.ApiService.Client\AspireDemo.ApiService.Client.csproj" />
+    <Content Remove="Data\efpt.config.json" />
+    <Content Remove="Data\Seed\Json\VPM.json" />
+    <Content Remove="Data\Seed\Json\VPMEvent-1.json" />
+    <Content Remove="Data\Seed\Json\VPMEvent-2.json" />
+    <Content Remove="Data\Seed\Json\VPMEvent-3.json" />
+    <Content Remove="Data\Seed\Json\VPMEventType.json" />
+    <Content Remove="Data\Seed\Json\VPMGps-1.json" />
+    <Content Remove="Data\Seed\Json\VPMGps-2.json" />
+    <Content Remove="Data\Seed\Json\VPMGps-3.json" />
+    <Content Remove="Data\Seed\Json\VPMGpsType.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\efpt.config.json" />
+    <None Include="Data\Seed\Json\VPM.json" />
+    <None Include="Data\Seed\Json\VPMEvent-1.json" />
+    <None Include="Data\Seed\Json\VPMEvent-2.json" />
+    <None Include="Data\Seed\Json\VPMEvent-3.json" />
+    <None Include="Data\Seed\Json\VPMEventType.json" />
+    <None Include="Data\Seed\Json\VPMGps-1.json" />
+    <None Include="Data\Seed\Json\VPMGps-2.json" />
+    <None Include="Data\Seed\Json\VPMGps-3.json" />
+    <None Include="Data\Seed\Json\VPMGpsType.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AspireDemo.ServiceDefaults\AspireDemo.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Communication.Email" Version="1.1.0-beta.2" />
+    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.1.0" />
+	<PackageReference Include="Azure.Communication.Email" Version="1.1.0-beta.2" />
     <PackageReference Include="Marqdouj.Aspire.MailKit.Client" Version="8.0.0" />
-    <PackageReference Include="Marqdouj.CLRCommon" Version="8.5.0" />
+    <PackageReference Include="Marqdouj.CLRCommon" Version="8.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.26" />
   </ItemGroup>

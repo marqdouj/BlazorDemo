@@ -1,5 +1,8 @@
 # Blazor/Aspire Demo
 
+## Containers
+- This demo uses Docker Desktop: https://www.docker.com/products/docker-desktop/
+
 ## Overview
 ### Web front-end created using Fluent Blazor components: https://www.fluentui-blazor.net/
 - includes demo of my own custom FluentUI components
@@ -14,7 +17,4 @@
 ### Email service using Azure for production:
 - https://learn.microsoft.com/en-us/azure/communication-services/concepts/email/email-overview
 ### Custom exception handler in API that uses Email service to notify dev team.
-
-## Containers
-- Some components require a container service. Demo was created using Docker Desktop: https://www.docker.com/products/docker-desktop/
-
+### PIMS Demo: Fictional company the manages Oil/Gas pipeline integrity data.

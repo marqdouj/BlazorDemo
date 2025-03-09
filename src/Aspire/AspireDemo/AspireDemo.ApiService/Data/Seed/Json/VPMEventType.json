@@ -1,0 +1,26 @@
+[
+    {
+        "Id": 0,
+        "Description": "Undefined"
+    },
+    {
+        "Id": 1,
+        "Description": "Weld"
+    },
+    {
+        "Id": 2,
+        "Description": "Valve"
+    },
+    {
+        "Id": 3,
+        "Description": "MetalLoss"
+    },
+    {
+        "Id": 4,
+        "Description": "Geometry"
+    },
+    {
+        "Id": 5,
+        "Description": "General"
+    }
+]

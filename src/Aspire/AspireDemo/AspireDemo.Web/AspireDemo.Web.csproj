@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AspireDemo.ApiService.Client\AspireDemo.ApiService.Client.csproj" />
+    <ProjectReference Include="..\AspireDemo.PIMS\AspireDemo.PIMS.csproj" />
     <ProjectReference Include="..\AspireDemo.ServiceDefaults\AspireDemo.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireDemo.Web.Common\AspireDemo.Web.Common.csproj" />
     <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.1.0" />
-    <PackageReference Include="Marqdouj.CLRCommon" Version="8.5.0" />
+    <PackageReference Include="Marqdouj.CLRCommon" Version="8.7.0" />
     <PackageReference Include="Marqdouj.FluentUI" Version="9.0.0" />
     <PackageReference Include="Marqdouj.Html.ResizeObserver" Version="9.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.6" />

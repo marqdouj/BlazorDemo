@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Marqdouj.CLRCommon" Version="8.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.6" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspireDemo.ApiService.Client\AspireDemo.ApiService.Client.csproj" />
+    <ProjectReference Include="..\AspireDemo.Web.Common\AspireDemo.Web.Common.csproj" />
+  </ItemGroup>
+
+</Project>

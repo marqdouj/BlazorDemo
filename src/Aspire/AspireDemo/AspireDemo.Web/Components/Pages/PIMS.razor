@@ -1,0 +1,41 @@
+﻿@page "/pims"
+@rendermode InteractiveServer
+
+<PageTitle>PIMS</PageTitle>
+
+<FluentLayout>
+    <FluentHeader>Pipeline Integrity Management System (PIMS)</FluentHeader>
+
+    <FluentLabel Typo="Typography.Subject">
+        PIMS is a fictional company that manages integrity data for Oil/Gas pipeline companies.
+     </FluentLabel>
+    <FluentLabel Typo="Typography.Subject">
+        Ensure the database is seeded with the 'apiservice' resource using the vpm/seed endpoint.
+    </FluentLabel>
+    <FluentLabel Typo="Typography.Subject">Seeding the database may take a few minutes to complete (5+).</FluentLabel>
+
+    <FluentTabs ActiveTabId="tab-1">
+        <FluentTab Id="tab-1">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size20.Pipeline())" />
+                ILI
+            </Header>
+            <Content>
+                <AspireDemo.PIMS.ILIView />
+            </Content>
+        </FluentTab>
+        <FluentTab Id="tab-2">
+            <Header>
+                <FluentIcon Value="@(new Icons.Regular.Size20.Map())" Color="@Color.Success" />
+                GPS
+            </Header>
+            <Content>
+                Under construction. Placeholder for a map displaying the GPS for the pipelines.
+            </Content>
+        </FluentTab>
+    </FluentTabs>
+</FluentLayout>
+
+@code {
+
+}

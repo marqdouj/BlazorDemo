@@ -1,7 +1,9 @@
+using AspireDemo.ApiService.Data;
 using AspireDemo.ApiService.EndPoints;
 using AspireDemo.ApiService.Services;
 using Marqdouj.CLRCommon;
 using Microsoft.AspNetCore.Diagnostics;
+using PIMS.ApiService.ApiEndPoints;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,8 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+builder.AddSqlServerDbContext<PIMSContext>("PIMS");
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -101,10 +105,18 @@ if (app.Environment.IsDevelopment())
         options.DefaultFonts = false; // Disable default fonts to avoid download unnecessary fonts
         options.Servers = []; //Required in Aspire
     });
+
+    using var scope = app.Services.CreateScope();
+    using var context = scope.ServiceProvider.GetRequiredService<PIMSContext>();
+    await context.Database.EnsureCreatedAsync();
+
+    //NOTE: You can seed the database in development using Scalar OpenAPI endpoint /vpm/seed
+    //      This may take a few minutes to complete (5+).
 }
 
 app.MapWeatherApi();
 app.MapNewsletter();
+app.MapPIMS(app.Environment.IsDevelopment());
 app.MapDevelopment(app.Environment.IsDevelopment());
 app.MapDefaultEndpoints();
 

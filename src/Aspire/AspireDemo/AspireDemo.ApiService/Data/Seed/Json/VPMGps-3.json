@@ -1,0 +1,542 @@
+[
+    {
+        "Id": 1,
+        "VPMId": 3,
+        "Longitude": -1.133608735900000e+002,
+        "Latitude": 5.230793670000000e+001,
+        "Elevation": 8.550890000000001e+002,
+        "DFS": 0.000000000000000e+000,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 2,
+        "VPMId": 3,
+        "Longitude": -1.133610256000000e+002,
+        "Latitude": 5.230793685000000e+001,
+        "Elevation": 8.557540000000000e+002,
+        "DFS": 3.391283409429483e+001,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 3,
+        "VPMId": 3,
+        "Longitude": -1.133618772200000e+002,
+        "Latitude": 5.230773541000000e+001,
+        "Elevation": 8.558130000000000e+002,
+        "DFS": 2.375891270275743e+002,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 4,
+        "VPMId": 3,
+        "Longitude": -1.133627288500000e+002,
+        "Latitude": 5.230753396000000e+001,
+        "Elevation": 8.555810000000000e+002,
+        "DFS": 4.412697462613171e+002,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 5,
+        "VPMId": 3,
+        "Longitude": -1.133635804700000e+002,
+        "Latitude": 5.230733252000000e+001,
+        "Elevation": 8.557260000000000e+002,
+        "DFS": 6.449476945367596e+002,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 6,
+        "VPMId": 3,
+        "Longitude": -1.133644320900000e+002,
+        "Latitude": 5.230713107000000e+001,
+        "Elevation": 8.559710000000000e+002,
+        "DFS": 8.486278609633775e+002,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 7,
+        "VPMId": 3,
+        "Longitude": -1.133652837200000e+002,
+        "Latitude": 5.230692963000000e+001,
+        "Elevation": 8.555760000000000e+002,
+        "DFS": 1.052309833230936e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 8,
+        "VPMId": 3,
+        "Longitude": -1.133662480600000e+002,
+        "Latitude": 5.230684706000000e+001,
+        "Elevation": 8.557930000000000e+002,
+        "DFS": 1.269512760531251e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 9,
+        "VPMId": 3,
+        "Longitude": -1.133672124100000e+002,
+        "Latitude": 5.230676449000000e+001,
+        "Elevation": 8.555130000000000e+002,
+        "DFS": 1.486718366240994e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 10,
+        "VPMId": 3,
+        "Longitude": -1.133681767600000e+002,
+        "Latitude": 5.230668192000000e+001,
+        "Elevation": 8.553510000000000e+002,
+        "DFS": 1.703924249196166e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 11,
+        "VPMId": 3,
+        "Longitude": -1.133691411100000e+002,
+        "Latitude": 5.230659935000000e+001,
+        "Elevation": 8.556580000000000e+002,
+        "DFS": 1.921130686002198e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 12,
+        "VPMId": 3,
+        "Longitude": -1.133701054600000e+002,
+        "Latitude": 5.230651678000000e+001,
+        "Elevation": 8.555330000000000e+002,
+        "DFS": 2.138337339128168e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 13,
+        "VPMId": 3,
+        "Longitude": -1.133710698100000e+002,
+        "Latitude": 5.230643420000000e+001,
+        "Elevation": 8.559280000000000e+002,
+        "DFS": 2.355545218729100e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 14,
+        "VPMId": 3,
+        "Longitude": -1.133720341600000e+002,
+        "Latitude": 5.230635163000000e+001,
+        "Elevation": 8.557660000000000e+002,
+        "DFS": 2.572752690954834e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 15,
+        "VPMId": 3,
+        "Longitude": -1.133729985100000e+002,
+        "Latitude": 5.230626906000000e+001,
+        "Elevation": 8.555330000000000e+002,
+        "DFS": 2.789960625043994e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 16,
+        "VPMId": 3,
+        "Longitude": -1.133739628600000e+002,
+        "Latitude": 5.230618649000000e+001,
+        "Elevation": 8.559640000000001e+002,
+        "DFS": 3.007169259079618e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 17,
+        "VPMId": 3,
+        "Longitude": -1.133749272100000e+002,
+        "Latitude": 5.230610392000000e+001,
+        "Elevation": 8.552660000000000e+002,
+        "DFS": 3.224378984312986e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 18,
+        "VPMId": 3,
+        "Longitude": -1.133758915600000e+002,
+        "Latitude": 5.230602135000000e+001,
+        "Elevation": 8.550870000000000e+002,
+        "DFS": 3.441588059099677e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 19,
+        "VPMId": 3,
+        "Longitude": -1.133768559000000e+002,
+        "Latitude": 5.230593878000000e+001,
+        "Elevation": 8.551350000000000e+002,
+        "DFS": 3.658795253662021e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 20,
+        "VPMId": 3,
+        "Longitude": -1.133778202500000e+002,
+        "Latitude": 5.230585621000000e+001,
+        "Elevation": 8.554570000000000e+002,
+        "DFS": 3.876005287973575e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 21,
+        "VPMId": 3,
+        "Longitude": -1.133787846000000e+002,
+        "Latitude": 5.230577363000000e+001,
+        "Elevation": 8.555420000000000e+002,
+        "DFS": 4.093216003518448e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 22,
+        "VPMId": 3,
+        "Longitude": -1.133797489500000e+002,
+        "Latitude": 5.230569106000000e+001,
+        "Elevation": 8.554240000000000e+002,
+        "DFS": 4.310426625858193e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 23,
+        "VPMId": 3,
+        "Longitude": -1.133807133000000e+002,
+        "Latitude": 5.230560849000000e+001,
+        "Elevation": 8.556990000000000e+002,
+        "DFS": 4.527637787527169e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 24,
+        "VPMId": 3,
+        "Longitude": -1.133816776500000e+002,
+        "Latitude": 5.230552592000000e+001,
+        "Elevation": 8.547970000000000e+002,
+        "DFS": 4.744851045252015e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 25,
+        "VPMId": 3,
+        "Longitude": -1.133826420000000e+002,
+        "Latitude": 5.230544335000000e+001,
+        "Elevation": 8.542540000000000e+002,
+        "DFS": 4.962063506155618e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 26,
+        "VPMId": 3,
+        "Longitude": -1.133836063500000e+002,
+        "Latitude": 5.230536078000000e+001,
+        "Elevation": 8.540040000000000e+002,
+        "DFS": 5.179275829512448e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 27,
+        "VPMId": 3,
+        "Longitude": -1.133845707000000e+002,
+        "Latitude": 5.230527821000000e+001,
+        "Elevation": 8.545740000000000e+002,
+        "DFS": 5.396489154187358e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 28,
+        "VPMId": 3,
+        "Longitude": -1.133855350500000e+002,
+        "Latitude": 5.230519564000000e+001,
+        "Elevation": 8.541369999999999e+002,
+        "DFS": 5.613702567869160e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 29,
+        "VPMId": 3,
+        "Longitude": -1.133861248000000e+002,
+        "Latitude": 5.230514501000000e+001,
+        "Elevation": 8.547890000000000e+002,
+        "DFS": 5.746548150495410e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 30,
+        "VPMId": 3,
+        "Longitude": -1.133870845300000e+002,
+        "Latitude": 5.230506330000000e+001,
+        "Elevation": 8.545720000000000e+002,
+        "DFS": 5.962697816499705e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 31,
+        "VPMId": 3,
+        "Longitude": -1.133880442500000e+002,
+        "Latitude": 5.230498159000000e+001,
+        "Elevation": 8.548970000000001e+002,
+        "DFS": 6.178845799868837e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 32,
+        "VPMId": 3,
+        "Longitude": -1.133890039800000e+002,
+        "Latitude": 5.230489988000000e+001,
+        "Elevation": 8.549910000000000e+002,
+        "DFS": 6.394996160026032e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 33,
+        "VPMId": 3,
+        "Longitude": -1.133899637000000e+002,
+        "Latitude": 5.230481817000000e+001,
+        "Elevation": 8.548380000000000e+002,
+        "DFS": 6.611144735841916e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 34,
+        "VPMId": 3,
+        "Longitude": -1.133909234300000e+002,
+        "Latitude": 5.230473646000000e+001,
+        "Elevation": 8.545910000000000e+002,
+        "DFS": 6.827295999320678e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 35,
+        "VPMId": 3,
+        "Longitude": -1.133918831500000e+002,
+        "Latitude": 5.230465475000000e+001,
+        "Elevation": 8.543920000000001e+002,
+        "DFS": 7.043445395218226e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 36,
+        "VPMId": 3,
+        "Longitude": -1.133928428800000e+002,
+        "Latitude": 5.230457304000000e+001,
+        "Elevation": 8.541180000000001e+002,
+        "DFS": 7.259597473868367e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 37,
+        "VPMId": 3,
+        "Longitude": -1.133938026100000e+002,
+        "Latitude": 5.230449133000000e+001,
+        "Elevation": 8.540670000000000e+002,
+        "DFS": 7.475749776186847e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 38,
+        "VPMId": 3,
+        "Longitude": -1.133947623300000e+002,
+        "Latitude": 5.230440961000000e+001,
+        "Elevation": 8.536350000000000e+002,
+        "DFS": 7.691901189275378e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 39,
+        "VPMId": 3,
+        "Longitude": -1.133957220600000e+002,
+        "Latitude": 5.230432790000000e+001,
+        "Elevation": 8.533520000000000e+002,
+        "DFS": 7.908054453517052e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 40,
+        "VPMId": 3,
+        "Longitude": -1.133966817800000e+002,
+        "Latitude": 5.230424619000000e+001,
+        "Elevation": 8.531910000000000e+002,
+        "DFS": 8.124205774373005e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 41,
+        "VPMId": 3,
+        "Longitude": -1.133976415100000e+002,
+        "Latitude": 5.230416448000000e+001,
+        "Elevation": 8.536350000000000e+002,
+        "DFS": 8.340360091994915e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 42,
+        "VPMId": 3,
+        "Longitude": -1.133986012300000e+002,
+        "Latitude": 5.230408277000000e+001,
+        "Elevation": 8.531410000000000e+002,
+        "DFS": 8.556512700015006e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 43,
+        "VPMId": 3,
+        "Longitude": -1.133995609600000e+002,
+        "Latitude": 5.230400106000000e+001,
+        "Elevation": 8.531040000000000e+002,
+        "DFS": 8.772667347424194e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 44,
+        "VPMId": 3,
+        "Longitude": -1.134005206800000e+002,
+        "Latitude": 5.230391935000000e+001,
+        "Elevation": 8.539270000000000e+002,
+        "DFS": 8.988821740336807e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 45,
+        "VPMId": 3,
+        "Longitude": -1.134012619000000e+002,
+        "Latitude": 5.230369586000000e+001,
+        "Elevation": 8.534650000000000e+002,
+        "DFS": 9.173177934354411e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 46,
+        "VPMId": 3,
+        "Longitude": -1.134020031200000e+002,
+        "Latitude": 5.230347238000000e+001,
+        "Elevation": 8.534250000000000e+002,
+        "DFS": 9.357532688974650e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 47,
+        "VPMId": 3,
+        "Longitude": -1.134027443400000e+002,
+        "Latitude": 5.230324889000000e+001,
+        "Elevation": 8.532170000000000e+002,
+        "DFS": 9.541889918474746e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 48,
+        "VPMId": 3,
+        "Longitude": -1.134034855600000e+002,
+        "Latitude": 5.230302541000000e+001,
+        "Elevation": 8.531450000000000e+002,
+        "DFS": 9.726246179861151e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 49,
+        "VPMId": 3,
+        "Longitude": -1.134044746600000e+002,
+        "Latitude": 5.230293334000000e+001,
+        "Elevation": 8.537660000000000e+002,
+        "DFS": 9.949435239588713e+003,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 50,
+        "VPMId": 3,
+        "Longitude": -1.134054637600000e+002,
+        "Latitude": 5.230284126000000e+001,
+        "Elevation": 8.535550000000000e+002,
+        "DFS": 1.017262453776177e+004,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 51,
+        "VPMId": 3,
+        "Longitude": -1.134064528500000e+002,
+        "Latitude": 5.230274919000000e+001,
+        "Elevation": 8.537340000000000e+002,
+        "DFS": 1.039581150714269e+004,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 52,
+        "VPMId": 3,
+        "Longitude": -1.134074419500000e+002,
+        "Latitude": 5.230265712000000e+001,
+        "Elevation": 8.535720000000000e+002,
+        "DFS": 1.061900112249619e+004,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 53,
+        "VPMId": 3,
+        "Longitude": -1.134084310400000e+002,
+        "Latitude": 5.230256505000000e+001,
+        "Elevation": 8.533290000000000e+002,
+        "DFS": 1.084218905951871e+004,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    },
+    {
+        "Id": 54,
+        "VPMId": 3,
+        "Longitude": -1.134094201400000e+002,
+        "Latitude": 5.230247297000000e+001,
+        "Elevation": 8.531480000000000e+002,
+        "DFS": 1.106538014567599e+004,
+        "VPMGpsTypeId": 0,
+        "Description": "Elevation Point"
+    }
+]

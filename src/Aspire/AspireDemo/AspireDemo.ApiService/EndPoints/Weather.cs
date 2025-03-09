@@ -1,6 +1,4 @@
-﻿using AspireDemo.ApiService.Client.Models;
-
-namespace AspireDemo.ApiService.EndPoints
+﻿namespace AspireDemo.ApiService.EndPoints
 {
     internal static class Weather
     {
@@ -22,5 +20,10 @@ namespace AspireDemo.ApiService.EndPoints
             })
             .WithName("GetWeatherForecast");
         }
+        private record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+        {
+            public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        }
+
     }
 }

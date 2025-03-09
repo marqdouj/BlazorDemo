@@ -1,0 +1,409 @@
+﻿@implements IAsyncDisposable
+@inject IApiServiceClient ApiClient
+@inject IJSRuntime JsRuntime
+@inject ILIState State
+@inject IServerLocalStorage LocalStorage
+@inject ILogger<ILIView> Logger
+@inject IToastService ToastService
+@inject IDialogService DialogService
+
+<FluentLayout>
+    <FluentHeader>In-Line Inspection @header</FluentHeader>
+
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentToolbar>
+            <FluentButton IconStart="@(new Icons.Regular.Size24.Pipeline())" @onclick="ShowVpmDialog" Title="Select Pipeline" />
+            <FluentSpacer />
+            <FluentLabel>@pageOfLabel</FluentLabel>
+            <FluentNumberField Disabled="@disabledGrid" Value="@pagedRange.Page" Min="1" Max="@pagedRange.LastPage.ToString()" @onchange="GoToPage" Style="width:5rem;" />
+            <FluentSpacer />
+            <FluentButton IconStart="@(new Icons.Regular.Size24.Settings())" @onclick="ShowSettings" Title="Settings" />
+        </FluentToolbar>
+
+        <div style="width:100%;overflow-x:auto;">
+            <div class="ili-container">
+                <div class="clock" style="@clockStyle">
+                    @if (settings.Pipe.ClockPosition == PipeClockPosition.Left)
+                    {
+                        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                            <FluentButton Disabled="@disabledGrid" Appearance="Appearance.Accent" Title="Anti-Clockwise" IconStart="@(new Icons.Regular.Size16.ArrowUp())" @onclick="@(() => ScrollClock(ClockDirection.AntiClockwise))" />
+                            <FluentButton Disabled="@disabledGrid" Appearance="Appearance.Accent" Title="Clockwise" IconStart="@(new Icons.Regular.Size16.ArrowDown())" @onclick="@(() => ScrollClock(ClockDirection.Clockwise))" />
+                        </FluentStack>
+                    }
+                </div>
+
+                <div style="width:100%;overflow-x:auto;">
+                    <canvas id="@canvasId" height="@pipeHeight" width="@pipeWidth">
+                        Sorry, your browser does not support the canvas element.
+                    </canvas>
+                </div>
+
+                <div class="clock" style="@clockStyle">
+                    @if (settings.Pipe.ClockPosition == PipeClockPosition.Right)
+                    {
+                        <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center">
+                            <FluentButton Disabled="@disabledGrid" Appearance="Appearance.Accent" Title="Anti-Clockwise" IconStart="@(new Icons.Regular.Size16.ArrowUp())" @onclick="@(() => ScrollClock(ClockDirection.AntiClockwise))" />
+                            <FluentButton Disabled="@disabledGrid" Appearance="Appearance.Accent" Title="Clockwise" IconStart="@(new Icons.Regular.Size16.ArrowDown())" @onclick="@(() => ScrollClock(ClockDirection.Clockwise))" />
+                        </FluentStack>
+                    }
+                </div>
+
+                <div />
+
+                <FluentDataGrid Items="@Data" GenerateHeader="GenerateHeaderOption.Sticky" Style="@gridStyle" AutoFit="true">
+                    <ChildContent>
+                        <PropertyColumn Title="@DFSTitle" Property="@(c => c!.Range.X1)" Format="0.00" />
+                        <PropertyColumn Title="@LengthTitle" Property="@(c => c!.Length)" Format="0.00" />
+                        <PropertyColumn Title="@WidthTitle" Property="@(c => c!.Range.Width)" Format="0.00" />
+                        <PropertyColumn Title="O'CLock" Property="@(c => c!.Clock.ClockText)" />
+                        <TemplateColumn Title="Event">
+                            <div class="flex items-center">
+                                <img class="img-grid" src="./_content/AspireDemo.PIMS/svg/@(context.Group.ToString()).svg" alt="@(context.Group)" />
+                                <nobr>
+                                    <strong>@context.Group.ToString()</strong>
+                                </nobr>
+                            </div>
+                        </TemplateColumn>
+                        <TemplateColumn>
+                            <FluentButton IconStart="@(new Icons.Regular.Size20.PipelineArrowCurveDown())" @onclick="@(() => GoToEvent(context))" Title="Find" />
+                        </TemplateColumn>
+                    </ChildContent>
+                    <LoadingContent>Loading...</LoadingContent>
+                    <EmptyContent>No data</EmptyContent>
+                </FluentDataGrid>
+            </div>
+        </div>
+    </FluentStack>
+</FluentLayout>
+
+<FluentOverlay Visible="@overlay" Opacity="0.4">
+    <FluentProgressRing />
+</FluentOverlay>
+
+@* Preload all svg event images to ensure they draw on the pipe in the correct ZOrder *@
+<div hidden>
+    @foreach (var g in eventGroups)
+    {
+        <img id="svg-@(g.ToString())" src="./_content/AspireDemo.PIMS/svg/@(g.ToString()).svg" loading="eager" />
+    }
+</div>
+
+@code {
+    private readonly List<VPMEventGroup> eventGroups = Enum.GetValues<VPMEventGroup>().ToList();
+    private PipeViewJsInterop? module;
+    private readonly string canvasId = Guid.NewGuid().ToString().Replace("-", "_");
+    private bool redrawPipe = true;
+    private bool loading;
+    private bool initializing = true;
+    private bool overlay => initializing || loading;
+    private PipeDisplay? pipeDisplay;
+    private List<VPM> vpmList = [];
+    private List<VPMEvent> vpmEvents = [];
+    private List<VPMEventVM> eventVMs = [];
+    private IQueryable<VPMEventVM>? Data => eventVMs?.AsQueryable();
+    private VPM? selectedVPM;
+    private string header => selectedVPM is null ? "" : $"({selectedVPM.Name})";
+    private ILISettings settings = new();
+    private int pipeHeight => settings?.Pipe.Height ?? PipeSettings.HEIGHT_DEFAULT;
+    private int pipeWidth => settings?.Pipe.Width ?? PipeSettings.WIDTH_DEFAULT;
+    private int gridHeight => settings?.Grid.Height ?? GridSettings.HEIGHT_DEFAULT;
+    private int gridWidth => settings?.Grid.Width ?? GridSettings.WIDTH_DEFAULT;
+    private PagedRange pagedRange = new PagedRange(0, 1, ILISettings.DEFAULT_PAGE_SIZE);
+    private string clockStyle => $"height:{pipeHeight}px;padding-top:1rem;padding-bottom:1rem;padding-right:1.25rem;padding-left:.25rem;";
+    private string gridStyle => $"width:{gridWidth}px;height:{gridHeight}px;overflow: auto; margin-bottom:3px; margin-top:3px; border: 1px solid black;";
+    private bool disabledGrid => false || loading || initializing || selectedVPM is null;
+    private int goToPage = 1;
+    private string pageOfLabel => pagedRange.RowCount > 0 ? $"Page {pagedRange.Page} of {pagedRange.LastPage}" : "";
+    private string DFSTitle => $"DFS ({State.Pipe.Unit.ToSuffix()})";
+    private string LengthTitle => $"Length (deg.)";
+    private string WidthTitle => $"Width ({PipeRangeMeasureUnit.Inch.ToSuffix()})";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module ??= new(JsRuntime);
+
+            try
+            {
+                IServerLocalStorageResult<ILISettings>? result = null;
+
+                try
+                {
+                    result = await LocalStorage.GetAsync<ILISettings>(nameof(ILISettings));
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "ILI: read LocalStorage failed.");
+                }
+
+                settings = (result?.Success ?? false) ? result.Value! : new();
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, null);
+                ToastService.ShowError(ex.ToMessage());
+            }
+
+            pipeDisplay = new PipeDisplay(canvasId, settings.Pipe, State.Pipe);
+
+            try
+            {
+                vpmList = await ApiClient.PIMS.VPMsAsync();
+
+                if (State.VpmId is not null)
+                {
+                    var vpm = vpmList.FirstOrDefault(e => e.Id == State.VpmId);
+                    if (vpm is not null)
+                        await LoadVpm(vpm, true);
+                }
+                else
+                {
+                    initializing = false;
+                    StateHasChanged();
+                    await ShowVpmDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, null);
+                ToastService.ShowError(ex.ToMessage());
+            }
+            finally
+            {
+                initializing = false;
+                StateHasChanged();
+            }
+        }
+
+        if (redrawPipe)
+        {
+            redrawPipe = false;
+            await module!.DrawPipeAsync(pipeDisplay!);
+        }
+    }
+
+    private async Task ShowSettings()
+    {
+        try
+        {
+            var dialog = await DialogService.ShowInfoAsync("This is a placeholder for the 'Settings' dialog.");
+            var result = await dialog.Result;
+            if (!result.Cancelled)
+            {
+                await SaveSettings();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+    }
+
+    private async Task SaveSettings()
+    {
+        try
+        {
+            await LocalStorage.SetAsync(nameof(ILISettings), settings);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "ILI: save LocalStorage failed.");
+        }
+    }
+
+    private async Task ShowVpmDialog()
+    {
+        if (vpmList.Count == 0) return;
+
+        var id = State.VpmId ?? vpmList.First().Id;
+        VPM? vpm = null;
+        var dialogInstance = await DialogService.ShowDialogAsync(
+        @<FluentSelect Items="@vpmList"
+              TOption="VPM"
+              OptionText="@(i => i.Name)"
+              OptionValue="@(i => i.Id.ToString())"
+              OptionSelected="@(i => i.Id == id)"
+@bind-SelectedOption="@vpm" />
+    , new DialogParameters
+      {
+          Title = "Select a Pipeline",
+      });
+
+        var result = await dialogInstance.Result;
+        if (!result.Cancelled)
+        {
+            await LoadVpm(vpm!, false);
+        }
+    }
+
+    private async Task LoadVpm(VPM vpm, bool useState)
+    {
+        try
+        {
+            loading = true;
+            StateHasChanged();
+
+            vpmEvents = [];
+            eventVMs = [];
+            selectedVPM = vpm;
+            State.VpmId = vpm.Id;
+
+            if (useState)
+            {
+                await DoPageChanged(State.Page, useState);
+            }
+            else
+            {
+                State.Page = 1;
+                await PageChanged(State.Page);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+        finally { loading = false; StateHasChanged(); }
+    }
+
+    private async Task PageChanged(int newPage)
+    {
+        await DoPageChanged(newPage, false);
+    }
+
+    private async Task DoPageChanged(int newPage, bool useState)
+    {
+        if (selectedVPM is null) return;
+
+        try
+        {
+            if (!vpmEvents.Any())
+            {
+                vpmEvents = await ApiClient.PIMS.VPMEventsAsync(selectedVPM.Id);
+            }
+
+            pagedRange = new PagedRange(vpmEvents.Count, newPage, settings.PageSize.Value);
+            State.Page = pagedRange.Page;
+
+            var results = vpmEvents.Skip(pagedRange.Page - 1).Take(pagedRange.PageSize).ToList();
+            eventVMs = CreateVPMEventVMs(results);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+        finally
+        {
+            VPMEventsChanged(useState);
+        }
+    }
+
+    private void VPMEventsChanged(bool useState)
+    {
+        try
+        {
+            if (useState is false)
+            {
+                var items = eventVMs ?? [];
+                double dfsMin = 0;
+                double dfsMax = 20;
+
+                if (items.Any())
+                {
+                    dfsMin = items.Min(e => e.Range.X1);
+                    dfsMax = items.Max(e => e.Range.X2);
+                }
+                State.Pipe.SetRange(dfsMin, dfsMax);
+            }
+
+            CreatePipeEvents();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+
+        redrawPipe = true;
+        StateHasChanged();
+    }
+
+    private void CreatePipeEvents()
+    {
+        var pixelsPerClock = pipeHeight / State.Pipe.Channels.Value;
+        var pixelsPerUnit = pipeWidth / State.Pipe.DFS.Width;
+        var clock = State.Pipe.Clock;
+        var range = pipeDisplay!.Range;
+        var size = new System.Drawing.Size(settings!.Pipe.Width, settings.Pipe.Height);
+        var items = (eventVMs ?? [])
+            .Select(e => e.ToPipeEvent(size, clock, range, pixelsPerClock, pixelsPerUnit))
+            .ToList();
+
+        pipeDisplay.Events = items.OrderBy(e => e.ZIndex).ToList();
+    }
+
+    private List<VPMEventVM> CreateVPMEventVMs(List<VPMEvent> vpmEvents)
+    {
+        var unit = State.Pipe.Unit;
+
+        var items = vpmEvents
+            .Select(item => new VPMEventVM(item, unit))
+            .ToList();
+
+        return items;
+    }
+
+    private void ScrollClock(ClockDirection direction)
+    {
+        var value = State.Pipe.Clock.ToDegrees();
+        value += direction == ClockDirection.Clockwise ? settings.Pipe.ClockScroll : -settings.Pipe.ClockScroll;
+        ClockChanged(value);
+    }
+
+    private void ClockChanged(double value)
+    {
+        State.Pipe.Clock = new ClockTime(value);
+        CreatePipeEvents();
+        redrawPipe = true;
+        StateHasChanged();
+    }
+
+    private async Task GoToPage(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString() ?? "", out var page))
+        {
+            await PageChanged(page);
+        }
+    }
+
+    private void GoToEvent(VPMEventVM eventVM)
+    {
+        State.Pipe.Clock = new ClockTime(eventVM.Clock.ToDegrees());
+        State.Pipe.DFS.Value = eventVM.Range.X1;
+
+        foreach (var item in eventVMs)
+        {
+            item.IsSelected = item.Id == eventVM.Id;
+        }
+
+        CreatePipeEvents();
+        redrawPipe = true;
+        StateHasChanged();
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        try
+        {
+            if (module != null)
+                await module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+}

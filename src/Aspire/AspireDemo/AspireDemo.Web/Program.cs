@@ -1,6 +1,9 @@
 using AspireDemo.ApiService.Client;
+using AspireDemo.PIMS.Models;
+using AspireDemo.Web.Common;
 using AspireDemo.Web.Components;
 using AspireDemo.Web.Components.Pages;
+using AspireDemo.Web.Models;
 using Marqdouj.Html.ResizeObserver;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -28,6 +31,8 @@ builder.Services.AddHttpClient<IApiServiceClient, ApiServiceClient>(client =>
 
 builder.Services.AddScoped<CounterState>();
 builder.Services.AddScoped<ResizeObserverService>();
+builder.Services.AddScoped<ILIState>();
+builder.Services.AddScoped<IServerLocalStorage, ServerLocalStorage>();
 
 var app = builder.Build();
 

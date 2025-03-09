@@ -1,0 +1,82 @@
+[
+    {
+        "Id": 0,
+        "Description": "Unclassified"
+    },
+    {
+        "Id": 1,
+        "Description": "CP Test Point"
+    },
+    {
+        "Id": 2,
+        "Description": "Casing Vent"
+    },
+    {
+        "Id": 3,
+        "Description": "CL Road"
+    },
+    {
+        "Id": 4,
+        "Description": "Fenceline Crossing"
+    },
+    {
+        "Id": 5,
+        "Description": "AGM Placement"
+    },
+    {
+        "Id": 6,
+        "Description": "Pipeline Marker"
+    },
+    {
+        "Id": 7,
+        "Description": "Valve"
+    },
+    {
+        "Id": 8,
+        "Description": "Pipeline Feature"
+    },
+    {
+        "Id": 9,
+        "Description": "Navigation Stake Target"
+    },
+    {
+        "Id": 10,
+        "Description": "Rectifier"
+    },
+    {
+        "Id": 11,
+        "Description": "Control Point"
+    },
+    {
+        "Id": 12,
+        "Description": "Arial Marker"
+    },
+    {
+        "Id": 13,
+        "Description": "Foreign Crossing"
+    },
+    {
+        "Id": 14,
+        "Description": "Mile Post"
+    },
+    {
+        "Id": 15,
+        "Description": "Kilometer Post"
+    },
+    {
+        "Id": 16,
+        "Description": "Projected Profile"
+    },
+    {
+        "Id": 17,
+        "Description": "CL RR Crossing"
+    },
+    {
+        "Id": 18,
+        "Description": "Edge of Water Crossing"
+    },
+    {
+        "Id": 19,
+        "Description": "CL Water Crossing"
+    }
+]

@@ -1,0 +1,65 @@
+﻿{
+  "CodeGenerationMode": 5,
+  "ContextClassName": "PIMSContext",
+  "ContextNamespace": null,
+  "FilterSchemas": false,
+  "IncludeConnectionString": false,
+  "ModelNamespace": null,
+  "OutputContextPath": "Data",
+  "OutputPath": "Data\\Models",
+  "PreserveCasingWithRegex": true,
+  "ProjectRootNamespace": "AspireDemo.ApiService",
+  "Schemas": null,
+  "SelectedHandlebarsLanguage": 2,
+  "SelectedToBeGenerated": 0,
+  "T4TemplatePath": null,
+  "Tables": [
+    {
+      "Name": "[pipelines].[VPM]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[pipelines].[VPMEvent]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[pipelines].[VPMEventType]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[pipelines].[VPMGps]",
+      "ObjectType": 0
+    },
+    {
+      "Name": "[pipelines].[VPMGpsType]",
+      "ObjectType": 0
+    }
+  ],
+  "UiHint": null,
+  "UncountableWords": null,
+  "UseAsyncStoredProcedureCalls": true,
+  "UseBoolPropertiesWithoutDefaultSql": false,
+  "UseDatabaseNames": true,
+  "UseDatabaseNamesForRoutines": true,
+  "UseDateOnlyTimeOnly": false,
+  "UseDbContextSplitting": false,
+  "UseDecimalDataAnnotationForSprocResult": true,
+  "UseFluentApiOnly": true,
+  "UseHandleBars": false,
+  "UseHierarchyId": false,
+  "UseInflector": false,
+  "UseInternalAccessModifiersForSprocsAndFunctions": false,
+  "UseLegacyPluralizer": false,
+  "UseManyToManyEntity": false,
+  "UseNoDefaultConstructor": false,
+  "UseNoNavigations": false,
+  "UseNoObjectFilter": false,
+  "UseNodaTime": false,
+  "UseNullableReferences": false,
+  "UsePrefixNavigationNaming": false,
+  "UseSchemaFolders": false,
+  "UseSchemaNamespaces": false,
+  "UseSpatial": false,
+  "UseT4": false,
+  "UseT4Split": false
+}

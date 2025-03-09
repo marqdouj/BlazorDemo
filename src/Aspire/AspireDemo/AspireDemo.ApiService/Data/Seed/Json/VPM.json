@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 1,
+    "Rid": "52BF6743-5369-46C5-8914-FCFA40FF57EA",
+    "Name": "ACME 24 inch Main Line",
+    "Grade": "52000",
+    "WallThickness": "0.375",
+    "Diameter": "24",
+    "EPSG": 4326,
+    "Color": "darkorange"
+  },
+  {
+    "Id": 2,
+    "Rid": "B8E66C01-1E28-4E3B-8E5E-76920DB4F6A8",
+    "Name": "ACME 20 inch Lateral",
+    "Grade": "60000",
+    "WallThickness": "0.25",
+    "Diameter": "20",
+    "EPSG": 4326,
+    "Color": "khaki"
+  },
+  {
+    "Id": 3,
+    "Rid": "1F78F43C-5152-4C69-A746-DCFF539AF962",
+    "Name": "ACME 16 inch Lateral",
+    "Grade": "60000",
+    "WallThickness": "0.203",
+    "Diameter": "16",
+    "EPSG": 4326,
+    "Color": "khaki"
+  }
+]

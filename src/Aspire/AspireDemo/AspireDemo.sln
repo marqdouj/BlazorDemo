@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireDemo.Web", "AspireDem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireDemo.ApiService.Client", "AspireDemo.ApiService.Client\AspireDemo.ApiService.Client.csproj", "{CDA74534-020C-45BD-B51D-539FDE1D50C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireDemo.PIMS", "AspireDemo.PIMS\AspireDemo.PIMS.csproj", "{2D351E88-28AD-477E-884D-11F0E799EEE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireDemo.Web.Common", "AspireDemo.Web.Common\AspireDemo.Web.Common.csproj", "{4ABADD72-103E-4AA9-8EA9-2A339A0F93BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{CDA74534-020C-45BD-B51D-539FDE1D50C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA74534-020C-45BD-B51D-539FDE1D50C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA74534-020C-45BD-B51D-539FDE1D50C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D351E88-28AD-477E-884D-11F0E799EEE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D351E88-28AD-477E-884D-11F0E799EEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D351E88-28AD-477E-884D-11F0E799EEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D351E88-28AD-477E-884D-11F0E799EEE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ABADD72-103E-4AA9-8EA9-2A339A0F93BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ABADD72-103E-4AA9-8EA9-2A339A0F93BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ABADD72-103E-4AA9-8EA9-2A339A0F93BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ABADD72-103E-4AA9-8EA9-2A339A0F93BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
