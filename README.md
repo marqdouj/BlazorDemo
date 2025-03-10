@@ -18,3 +18,5 @@
 - https://learn.microsoft.com/en-us/azure/communication-services/concepts/email/email-overview
 ### Custom exception handler in API that uses Email service to notify dev team.
 ### PIMS Demo: Fictional company the manages Oil/Gas pipeline integrity data.
+- In-Line Inspection (ILI) data is displayed using Html Canvas and svg images.
+- GPS Data is displayed using AzureMapsControl: https://github.com/arnaudleclerc/AzureMapsControl.Components

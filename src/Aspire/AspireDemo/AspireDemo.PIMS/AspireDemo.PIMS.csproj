@@ -16,6 +16,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.6" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.6" />
+    <PackageReference Include="AzureMapsControl.Components" Version="1.16.1" />
+    <PackageReference Include="Darnton.Blazor.DeviceInterop" Version="0.1.2" />
   </ItemGroup>
 
   <ItemGroup>

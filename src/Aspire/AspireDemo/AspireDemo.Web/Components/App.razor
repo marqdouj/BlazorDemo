@@ -9,12 +9,26 @@
     <link rel="stylesheet" href="@Assets["AspireDemo.Web.styles.css"]" />
     <ImportMap />
     <link rel="icon" type="image/svg" href="app.svg" />
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" />
     <HeadOutlet />
 </head>
 
 <body>
     <Routes />
     <script src="_framework/blazor.web.js"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+    <script src="_content/AzureMapsControl.Components/azure-maps-control.min.js"></script>
+    <script src="azure-maps-geolocation-control.min.js"></script>
+    <script type="text/javascript">
+        azureMapsControl.Extensions.getTokenCallback = (resolve, reject, map) => {
+            DotNet.invokeMethodAsync('AspireDemo.Web', 'GetMapAccessToken')
+                .then(function(response) {
+                    return response;
+                }).then(function(token) {
+                    resolve(token);
+                });
+        };
+    </script>
 </body>
 
 </html>

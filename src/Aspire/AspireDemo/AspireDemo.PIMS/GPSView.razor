@@ -1,0 +1,400 @@
+﻿@* https://github.com/arnaudleclerc/AzureMapsControl.Components *@
+@using AzureMapsControl.Components.Atlas
+@using AzureMapsControl.Components.Data
+@using AzureMapsControl.Components.Layers
+@using AzureMapsControl.Components.Map
+@using Darnton.Blazor.DeviceInterop.Geolocation
+@inject IGeolocationService GeolocationService
+@inject IMapService MapService
+@inject IApiServiceClient ApiClient
+@inject ILogger<GPSView> Logger
+@inject IToastService ToastService
+@inject IDialogService DialogService
+@inject GPSViewState State
+@inject IServerLocalStorage LocalStorage
+
+<FluentLayout>
+    <FluentHeader>Map View</FluentHeader>
+
+    <FluentStack Orientation="Orientation.Vertical" Width="100%" Style="height:90%">
+        <FluentStack Orientation="Orientation.Vertical">
+            <br />
+            <FluentSwitch @bind-Value=showInstructions Label="Show Instructions" />
+            <br />
+            <FluentCard hidden="@hideInstructions">
+                <FluentAnchor Href="https://github.com/arnaudleclerc/AzureMapsControl.Components" Target="_blank" IconStart="@(new Icons.Regular.Size20.Map())">
+                    This demo is based on the AzureMapsControl.Components library.
+                </FluentAnchor>
+                <br />
+                <FluentAnchor Href="https://blazorhelpwebsite.com/ViewBlogPost/59" Target="_blank" IconStart="@(new Icons.Regular.Size20.Map())">
+                    Follow the instructions here to configure your free Azure Maps account.
+                </FluentAnchor>
+                <br />
+                <FluentLabel Typo="Typography.H5">
+                    For this demo, the 'AzureMaps' configuration section must exist. Values should be placed in a secure vault (Secrets Manager).
+                    <pre>
+"AzureMaps": {
+    "SubscriptionKey": "...",
+    "ClientId": "...",
+    "AppKey": "...",
+    "AadTenantId": "...",
+    "AadAppId": "...",
+    "AppKey": "..."
+}
+                    </pre>
+                </FluentLabel>
+            </FluentCard>
+        </FluentStack>
+
+        <FluentStack>
+            <div style="overflow-x:auto;height:100%;">
+                <FluentNavMenu @bind-Expanded="@Expanded" Width="320" Collapsible="true">
+                    @foreach (var vpm in pipelines)
+                    {
+                        <FluentNavLink Tooltip="@vpm.DisplayName" OnClick="@(() => OnVpmClick(vpm))" Icon="@(MenuIcon(vpm))" IconColor="Color.Accent">@vpm.DisplayName</FluentNavLink>
+                    }
+                </FluentNavMenu>
+            </div>
+            <div style="width:100%; height:100%;">
+                @if (rendered && !loading && mapNotReady)
+                {
+                    <FluentLabel Typo="Typography.H3">Map is not ready. 
+                        If the map does not display then check your browser's console for errors.
+                        It's possible the Azure Maps configuration is incorrect.
+                    </FluentLabel>
+                }
+
+                <AzureMap Id="map"
+                CameraOptions="new CameraOptions { Zoom = 10 }"
+                StyleOptions="StyleOptions"
+                EventActivationFlags="MapEventActivationFlags.None().Enable(
+                MapEventType.Ready,
+                                MapEventType.SourceAdded,
+                                MapEventType.ZoomEnd,
+                                MapEventType.DragEnd,
+                                MapEventType.StyleData)"
+                          OnReady="OnMapReadyAsync"
+                          OnSourceAdded="OnDatasourceAdded"
+                          OnZoomEnd="OnCameraChanged"
+                          OnDragEnd="OnCameraChanged"
+                          OnStyleData="OnStyleChanged" />
+            </div>
+        </FluentStack>
+
+        <FluentFooter>
+            @statusText
+        </FluentFooter>
+    </FluentStack>
+</FluentLayout>
+
+<FluentOverlay Visible="@overlay" Opacity="0.4">
+    <FluentProgressRing />
+</FluentOverlay>
+
+<style>
+    #map {
+        width: 800px;
+        height: 600px;
+    }
+
+    .popup {
+    padding: 10px;
+    color: white;
+    border-style: solid;
+    border-color: white;
+    background-color: black;
+    }
+</style>
+
+@code {
+    bool Expanded = true;
+    bool showInstructions = true;
+    bool hideInstructions => !showInstructions;
+    bool rendered;
+    private readonly Icon layerExists = new Icons.Filled.Size20.Layer();
+    private readonly Icon addLayer = new Icons.Regular.Size20.Layer();
+    private StyleOptions StyleOptions = new StyleOptions
+    {
+        Style = MapStyle.Night,
+        ShowFeedbackLink = false,
+        ShowLogo = false,
+    };
+    private bool mapNotReady = true;
+    private bool loading = true;
+    private bool overlay => loading;
+    private List<VPMListItem> pipelines = [];
+    private List<VPMGpsType> gpsTypes = [];
+    private string? statusText;
+    private Icon MenuIcon(VPMListItem vpm) => vpm.IsLoaded ? layerExists : addLayer;
+    private GPSSettings settings = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            IServerLocalStorageResult<GPSSettings>? result = null;
+
+            try
+            {
+                result = await LocalStorage.GetAsync<GPSSettings>(nameof(GPSSettings));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "GPSView: read LocalStorage failed.");
+            }
+
+            settings = (result?.Success ?? false) ? result.Value! : new();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+        }
+        finally
+        {
+            if (!rendered)
+            {
+                rendered = true;
+                StateHasChanged();
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            gpsTypes = await ApiClient.PIMS.VPMGpsTypesAsync();
+            pipelines = (await ApiClient.PIMS.VPMsAsync())
+                .Select(e => new VPMListItem(e))
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+        finally
+        {
+            loading = false; 
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnVpmClick(VPMListItem vpm, bool moveToPosition = true)
+    {
+        if (loading || mapNotReady) return;
+        if (vpm is null) return;
+
+        if (vpm.IsLoaded)
+        {
+            if (moveToPosition)
+                await MoveToPosition(vpm.StartPosition!);
+            return;
+        }
+
+        try
+        {
+            loading = true;
+            StateHasChanged();
+
+            var data = await ApiClient.PIMS.VPMGpsAsync(vpm.Vpm!.Id);
+            var gps = data
+                .Select(e => new Position(e.Longitude, e.Latitude))
+                .ToList();
+            vpm.StartPosition = gps.First();
+            var dataSource = new DataSource(vpm.DataSourceId)
+            {
+                Options = new DataSourceOptions { LineMetrics = true }
+            };
+
+            await MapService.Map.AddSourceAsync(dataSource);
+
+            await dataSource.AddAsync(
+                new Shape<LineString>(
+                new LineString(gps),
+                new Dictionary<string, object>() {
+                    { "Color", vpm.LineColor },
+                    { "vpmId", vpm.DisplayValue }
+                                            })
+            );
+
+            State.SelectedVPMs.Add(vpm.Vpm.Id);
+
+            if (moveToPosition)
+                await MoveToPosition(vpm.StartPosition!);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task MoveToPosition(Position position)
+    {
+        await MapService.Map.SetCameraOptionsAsync(o =>
+        {
+            o.Center = new Position(position.Longitude, position.Latitude);
+        });
+    }
+
+    private async Task OnMapReadyAsync(MapEventArgs eventArgs)
+    {
+        bool hasCamera = settings.MapCamera is not null;
+
+        try
+        {
+            if (hasCamera)
+            {
+                await eventArgs.Map.SetCameraOptionsAsync(options =>
+                    {
+                        options.Center = settings.MapCamera!.Center;
+                        options.Bounds = settings.MapCamera!.Bounds;
+                    }
+                );
+            }
+            else
+            {
+                var currentPosition = await GeolocationService.GetCurrentPosition();
+
+                if (currentPosition.IsSuccess)
+                {
+                    await eventArgs.Map.SetCameraOptionsAsync(
+                        options => options.Center =
+                        new AzureMapsControl.Components.Atlas.Position
+                        (currentPosition.Position.Coords.Longitude, currentPosition.Position.Coords.Latitude));
+                }
+            }
+
+            if (settings.MapStyle is not null)
+            {
+                await eventArgs.Map.SetStyleOptionsAsync(options =>
+                {
+                    options.Style = settings.MapStyle.Style;
+                });
+            }
+
+            await eventArgs.Map.AddControlsAsync(
+                new AzureMapsControl.Components.Controls.GeolocationControl(position: AzureMapsControl.Components.Controls.ControlPosition.TopRight),
+                new AzureMapsControl.Components.Controls.ZoomControl(position: AzureMapsControl.Components.Controls.ControlPosition.TopLeft),
+                new AzureMapsControl.Components.Controls.PitchControl(position: AzureMapsControl.Components.Controls.ControlPosition.TopRight),
+                new AzureMapsControl.Components.Controls.CompassControl(position: AzureMapsControl.Components.Controls.ControlPosition.BottomLeft),
+                new AzureMapsControl.Components.Controls.StyleControl(position: AzureMapsControl.Components.Controls.ControlPosition.BottomRight)
+                );
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, null);
+            ToastService.ShowError(ex.ToMessage());
+        }
+        finally
+        {
+            mapNotReady = false;
+            StateHasChanged();
+        }
+
+        foreach (var item in pipelines.Where(e => State.SelectedVPMs.Contains(e.Vpm!.Id)))
+        {
+            await OnVpmClick(item, !hasCamera);
+        }
+    }
+
+    private async Task OnDatasourceAdded(MapSourceEventArgs eventArgs)
+    {
+        if (!eventArgs.Source.Id.StartsWith(VPMListItem.DataSourcePrefix))
+            return;
+
+        var layer = new LineLayer
+        {
+            EventActivationFlags = LayerEventActivationFlags.None(),
+            Options = new LineLayerOptions
+            {
+                Source = eventArgs.Source.Id,
+                StrokeWidth = new ExpressionOrNumber(6),
+                StrokeColor = new ExpressionOrString(
+                                new Expression[]
+                                {
+                            new ExpressionOrString("get"),
+                            new ExpressionOrString("Color")
+                                })
+            }
+        };
+
+        await eventArgs.Map.AddLayerAsync(layer);
+
+        var vpm = pipelines.First(e => e.DataSourceId == eventArgs.Source.Id);
+        vpm.LayerId = layer.Id;
+
+        var popup = new AzureMapsControl.Components.Popups.Popup(new AzureMapsControl.Components.Popups.PopupOptions
+        {
+            CloseButton = false,
+            Content = $"<div class=\"popup\">{vpm.DisplayName}</div>",
+            Position = vpm.StartPosition,
+            OpenOnAdd = true
+        });
+        await eventArgs.Map.AddPopupAsync(popup);
+    }
+
+    private async Task OnLayerMouseEnter(MapMouseEventArgs args)
+    {
+        await this.InvokeAsync(() =>
+        {
+            var vpm = pipelines.FirstOrDefault(e => e.LayerId == args.LayerId);
+            statusText = vpm?.DisplayName;
+            StateHasChanged();
+        });
+    }
+
+    private async Task OnLayerMouseLeave(MapMouseEventArgs args)
+    {
+        await this.InvokeAsync(() =>
+        {
+            statusText = "";
+            StateHasChanged();
+        });
+    }
+
+    private async Task OnCameraChanged(MapEventArgs args)
+    {
+        if (mapNotReady)
+            return;
+
+        settings.MapCamera = await args.Map.GetCameraOptionsAsync();
+        await SaveSettings();
+    }
+
+    private async Task OnStyleChanged(MapStyleDataEventArgs args)
+    {
+        if (mapNotReady)
+            return;
+
+        try
+        {
+            settings.MapStyle = await args.Map.GetStyleOptionsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToMessage());
+            //Ignore for now; filed a bug with map owner
+            //Logger.LogError(ex, null);
+            //ToastService.ShowError(ex.ToMessage());
+        }
+    }
+
+    private async Task SaveSettings()
+    {
+        try
+        {
+            await LocalStorage.SetAsync(nameof(GPSSettings), settings);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "GPSVIew: save LocalStorage failed.");
+        }
+    }
+}

@@ -4,6 +4,8 @@ using AspireDemo.Web.Common;
 using AspireDemo.Web.Components;
 using AspireDemo.Web.Components.Pages;
 using AspireDemo.Web.Models;
+using AzureMapsControl.Components;
+using Darnton.Blazor.DeviceInterop.Geolocation;
 using Marqdouj.Html.ResizeObserver;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -32,7 +34,13 @@ builder.Services.AddHttpClient<IApiServiceClient, ApiServiceClient>(client =>
 builder.Services.AddScoped<CounterState>();
 builder.Services.AddScoped<ResizeObserverService>();
 builder.Services.AddScoped<ILIState>();
+builder.Services.AddScoped<GPSViewState>();
 builder.Services.AddScoped<IServerLocalStorage, ServerLocalStorage>();
+
+builder.Services.AddScoped<IGeolocationService, GeolocationService>();
+builder.SetAzureMapConfig();
+builder.Services.AddAzureMapsControl(
+    configuration => configuration.ClientId = AzureMapsAuthService.MapConfig.ClientId);
 
 var app = builder.Build();
 
