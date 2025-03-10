@@ -34,7 +34,7 @@ builder.Services.AddHttpClient<IApiServiceClient, ApiServiceClient>(client =>
 builder.Services.AddScoped<CounterState>();
 builder.Services.AddScoped<ResizeObserverService>();
 builder.Services.AddScoped<ILIState>();
-builder.Services.AddScoped<GPSViewState>();
+builder.Services.AddScoped<GPSState>();
 builder.Services.AddScoped<IServerLocalStorage, ServerLocalStorage>();
 
 builder.Services.AddScoped<IGeolocationService, GeolocationService>();

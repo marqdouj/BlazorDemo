@@ -1,5 +1,5 @@
 ﻿using AspireDemo.PIMS.Models.Canvas;
-using AspireDemo.PIMS.Models.Clock;
+using Marqdouj.CLRCommon;
 
 namespace AspireDemo.PIMS.Models
 {
@@ -24,8 +24,36 @@ namespace AspireDemo.PIMS.Models
         public PipeClockPosition ClockPosition { get; set; } = PipeClockPosition.Left;
         public int Height { get; set; } = HEIGHT_DEFAULT;
         public int Width { get; set; } = WIDTH_DEFAULT;
+        public MinMaxN<int> ClockScroll { get; set; } = new MinMaxN<int>(15, 90, 15); //default value 15; 1/2 hour
 
-        public double ClockScroll { get; set; } = PipeClocks.DEGREES_PER_CLOCK / 2.0; //default to 1/2 hour)
-        public double DFSScroll { get; set; } = 5; 
+        public PipeSettings Copy()
+        {
+            return new PipeSettings
+            {
+                Background = [.. Background],
+                ClockPosition = ClockPosition,
+                Height = Height,
+                Width = Width,
+                ClockScroll = ClockScroll
+            };
+        }
+
+        public void Update(PipeSettings settings)
+        {
+            Background = [.. settings.Background];
+            ClockPosition = settings.ClockPosition;
+            Height = settings.Height;
+            Width = settings.Width;
+            ClockScroll = settings.ClockScroll;
+        }
+
+        public void Reset()
+        {
+            Background = BackgroundDefault;
+            ClockPosition = PipeClockPosition.Left;
+            Height = HEIGHT_DEFAULT;
+            Width = WIDTH_DEFAULT;
+            ClockScroll = new MinMaxN<int>(15, 90, 30);
+        }   
     }
 }

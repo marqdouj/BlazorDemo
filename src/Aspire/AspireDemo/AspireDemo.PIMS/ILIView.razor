@@ -112,7 +112,6 @@
     private string clockStyle => $"height:{pipeHeight}px;padding-top:1rem;padding-bottom:1rem;padding-right:1.25rem;padding-left:.25rem;";
     private string gridStyle => $"width:{gridWidth}px;height:{gridHeight}px;overflow: auto; margin-bottom:3px; margin-top:3px; border: 1px solid black;";
     private bool disabledGrid => false || loading || initializing || selectedVPM is null;
-    private int goToPage = 1;
     private string pageOfLabel => pagedRange.RowCount > 0 ? $"Page {pagedRange.Page} of {pagedRange.LastPage}" : "";
     private string DFSTitle => $"DFS ({State.Pipe.Unit.ToSuffix()})";
     private string LengthTitle => $"Length (deg.)";
@@ -188,11 +187,23 @@
     {
         try
         {
-            var dialog = await DialogService.ShowInfoAsync("This is a placeholder for the 'Settings' dialog.");
-            var result = await dialog.Result;
-            if (!result.Cancelled)
+            DialogParameters parameters = new()
             {
+                Width = "560",
+                Modal = false,
+                PreventScroll = true
+            };
+
+            IDialogReference dialog = await DialogService.ShowDialogAsync<ILISettingsDialog>(new ILIConfig(settings.Pipe.Copy(), State.Pipe.Copy()), parameters);
+            DialogResult? result = await dialog.Result;
+
+            if (result.Cancelled is false && result.Data is not null)
+            {
+                var options = (ILIConfig)result.Data;
+                State.Pipe.Update(options.State);
+                settings.Pipe.Update(options.Settings);
                 await SaveSettings();
+                await GoToPage(State.Page);
             }
         }
         catch (Exception ex)
@@ -360,7 +371,7 @@
     private void ScrollClock(ClockDirection direction)
     {
         var value = State.Pipe.Clock.ToDegrees();
-        value += direction == ClockDirection.Clockwise ? settings.Pipe.ClockScroll : -settings.Pipe.ClockScroll;
+        value += direction == ClockDirection.Clockwise ? settings.Pipe.ClockScroll.Value : -settings.Pipe.ClockScroll.Value;
         ClockChanged(value);
     }
 
@@ -376,8 +387,13 @@
     {
         if (int.TryParse(e.Value?.ToString() ?? "", out var page))
         {
-            await PageChanged(page);
+            await GoToPage(page);
         }
+    }
+
+    private async Task GoToPage(int page)
+    {
+        await PageChanged(page);
     }
 
     private void GoToEvent(VPMEventVM eventVM)

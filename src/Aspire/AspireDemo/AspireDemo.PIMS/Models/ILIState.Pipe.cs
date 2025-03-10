@@ -21,5 +21,32 @@ namespace AspireDemo.PIMS.Models
         }
 
         public PipeRange GetRange() => new (DFS.Value, DFS.Width, Unit);
+
+        public PipeState Copy()
+        {
+            return new PipeState
+            {
+                Clock = new(Clock.ToDegrees()),
+                Channels = new(Channels.Min, Channels.Max, Channels.Value),
+                DFS = new(DFS.Min, DFS.Max, DFS.Value),
+                Unit = Unit
+            };
+        }
+
+        public void Update(PipeState state)
+        {
+            Clock = state.Clock;
+            Channels = state.Channels;
+            DFS = state.DFS;
+            Unit = state.Unit;
+        }
+
+        public void Reset()
+        {
+            Clock = new(CLOCK_DEFAULT);
+            Channels = new(1, 12, 12);
+            DFS = new(-10, 10, 0);
+            Unit = PipeRangeMeasureUnit.Meter;
+        }
     }
 }

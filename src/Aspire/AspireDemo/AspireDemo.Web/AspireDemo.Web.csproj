@@ -13,10 +13,10 @@
     <ProjectReference Include="..\AspireDemo.ServiceDefaults\AspireDemo.ServiceDefaults.csproj" />
     <ProjectReference Include="..\AspireDemo.Web.Common\AspireDemo.Web.Common.csproj" />
     <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.1.0" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="3.6.0" />
-    <PackageReference Include="Marqdouj.CLRCommon" Version="8.7.0" />
-    <PackageReference Include="Marqdouj.FluentUI" Version="9.0.0" />
-    <PackageReference Include="Marqdouj.Html.ResizeObserver" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.8.0" />
+    <PackageReference Include="Marqdouj.CLRCommon" Version="8.8.0" />
+    <PackageReference Include="Marqdouj.FluentUI" Version="9.0.1" />
+    <PackageReference Include="Marqdouj.Html.ResizeObserver" Version="9.0.1" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.11.6" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.6" />
   </ItemGroup>

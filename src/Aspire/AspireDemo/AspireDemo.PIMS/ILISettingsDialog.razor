@@ -1,0 +1,69 @@
+﻿@implements IDialogContentComponent<ILIConfig>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.ContentSettings())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            Settings
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical" Width="100%">
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentCard>
+                <FluentLabel Typo="Typography.Subject" Style="margin-bottom:3px;">Clock</FluentLabel>
+                <FluentStack>
+                    <FluentCard AreaRestricted="false">
+                        <FluentSlider Label="Button Scroll (Degrees: 30 = 1 Hour)" Min="@Content.Settings.ClockScroll.Min" Max="@Content.Settings.ClockScroll.Max" Step="1" @bind-Value=@Content.Settings.ClockScroll.Value />
+                        <FluentLabel>Value: @Content.Settings.ClockScroll.Value</FluentLabel>
+                    </FluentCard>
+
+                    <FluentCard AreaRestricted="false">
+                        <FluentSelect Label="Button Scroll Position" TOption="string" ValueChanged="OnClockGridChanged">
+                            <FluentOption Selected="@(Content.Settings.ClockPosition == PipeClockPosition.Left)" Value="@PipeClockPosition.Left.ToString()">@PipeClockPosition.Left</FluentOption>
+                            <FluentOption Selected="@(Content.Settings.ClockPosition == PipeClockPosition.Right)" Value="@PipeClockPosition.Right.ToString()">@PipeClockPosition.Right</FluentOption>
+                        </FluentSelect>
+                        <FluentLabel>Value: @Content.Settings.ClockPosition</FluentLabel>
+                    </FluentCard>
+                </FluentStack>
+            </FluentCard>
+        </FluentStack>
+    </FluentStack>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Neutral" IconStart="@(new Icons.Regular.Size20.ArrowReset())" OnClick="Reset">Reset</FluentButton>
+    <FluentSpacer />
+    <FluentButton Appearance="Appearance.Accent" IconStart="@(new Icons.Regular.Size20.Checkmark())" OnClick="@SaveAsync">OK</FluentButton>
+    <FluentButton Appearance="Appearance.Neutral" IconStart="@(new Icons.Regular.Size20.Delete())" OnClick="@CancelAsync">Cancel</FluentButton>
+</FluentDialogFooter>
+
+@code {
+
+    [Parameter]
+    public ILIConfig Content { get; set; } = default!;
+    [CascadingParameter]
+    public FluentDialog? Dialog { get; set; }
+
+    private void OnClockGridChanged(string value)
+    {
+        Content.Settings.ClockPosition = Enum.Parse<PipeClockPosition>(value);
+    }
+
+    private async Task SaveAsync()
+    {
+        await Dialog!.CloseAsync(Content);
+    }
+
+    private async Task CancelAsync()
+    {
+        await Dialog!.CancelAsync();
+    }
+
+    private void Reset()
+    {
+        Content.Reset();
+    }
+}
