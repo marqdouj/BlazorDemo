@@ -21,3 +21,18 @@
 - In-Line Inspection (ILI) data is displayed using Html Canvas and svg images.
 - GPS Data is displayed using AzureMapsControl: https://github.com/arnaudleclerc/AzureMapsControl.Components
 - Follow the instructions here to configure your free Azure Maps account: https://blazorhelpwebsite.com/ViewBlogPost/59
+
+Once you configure you Azure Maps account, the 'AzureMaps' configuration section must be added (recommend Secrets Manager).
+
+```
+{
+  "AzureMaps": {
+    "SubscriptionKey": "...",
+    "ClientId": "...",
+    "AppKey": "...",
+    "AadTenantId": "...",
+    "AadAppId": "...",
+    "AppKey": "..."
+  }
+}
+```
