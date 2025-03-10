@@ -23,7 +23,7 @@
 - Follow the instructions here to configure your free Azure Maps account: https://blazorhelpwebsite.com/ViewBlogPost/59
 
 Once you configure your Azure Maps account, the 'AzureMaps' configuration section must be added (recommend Secrets Manager).
-
+### NOTE: You can run the rest of the demo without configuring Azure Maps, but the GPS data will not display.
 ```
 {
   "AzureMaps": {
