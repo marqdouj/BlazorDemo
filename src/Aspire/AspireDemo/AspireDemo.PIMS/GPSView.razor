@@ -19,7 +19,7 @@
     <FluentStack Orientation="Orientation.Vertical" Width="100%" Style="height:90%">
         <FluentStack Orientation="Orientation.Vertical">
             <br />
-            <FluentSwitch @bind-Value=showInstructions Label="Show Instructions" />
+            <FluentSwitch @bind-Value=settings.ShowInstructions Label="Show Instructions" />
             <br />
             <FluentCard hidden="@hideInstructions">
                 <FluentAnchor Href="https://github.com/arnaudleclerc/AzureMapsControl.Components" Target="_blank" IconStart="@(new Icons.Regular.Size20.Map())">
@@ -33,14 +33,14 @@
                 <FluentLabel Typo="Typography.H5">
                     For this demo, the 'AzureMaps' configuration section must exist. Values should be placed in a secure vault (Secrets Manager).
                     <pre>
-"AzureMaps": {
-    "SubscriptionKey": "...",
-    "ClientId": "...",
-    "AppKey": "...",
-    "AadTenantId": "...",
-    "AadAppId": "...",
-    "AppKey": "..."
-}
+                        "AzureMaps": {
+                        "SubscriptionKey": "...",
+                        "ClientId": "...",
+                        "AppKey": "...",
+                        "AadTenantId": "...",
+                        "AadAppId": "...",
+                        "AppKey": "..."
+                        }
                     </pre>
                 </FluentLabel>
             </FluentCard>
@@ -73,11 +73,11 @@
                                 MapEventType.ZoomEnd,
                                 MapEventType.DragEnd,
                                 MapEventType.StyleData)"
-                          OnReady="OnMapReadyAsync"
-                          OnSourceAdded="OnDatasourceAdded"
-                          OnZoomEnd="OnCameraChanged"
-                          OnDragEnd="OnCameraChanged"
-                          OnStyleData="OnStyleChanged" />
+                OnReady="OnMapReadyAsync"
+                OnSourceAdded="OnDatasourceAdded"
+                OnZoomEnd="OnCameraChanged"
+                OnDragEnd="OnCameraChanged"
+                OnStyleData="OnStyleChanged" />
             </div>
         </FluentStack>
 
@@ -93,8 +93,8 @@
 
 <style>
     #map {
-        width: 800px;
-        height: 600px;
+    width: 800px;
+    height: 600px;
     }
 
     .popup {
@@ -108,8 +108,7 @@
 
 @code {
     bool Expanded = true;
-    bool showInstructions = true;
-    bool hideInstructions => !showInstructions;
+    bool hideInstructions => !settings.ShowInstructions;
     bool rendered;
     private readonly Icon layerExists = new Icons.Filled.Size20.Layer();
     private readonly Icon addLayer = new Icons.Regular.Size20.Layer();
@@ -130,32 +129,34 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            IServerLocalStorageResult<GPSSettings>? result = null;
-
             try
             {
-                result = await LocalStorage.GetAsync<GPSSettings>(nameof(GPSSettings));
+                IServerLocalStorageResult<GPSSettings>? result = null;
+
+                try
+                {
+                    result = await LocalStorage.GetAsync<GPSSettings>(nameof(GPSSettings));
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "GPSView: read LocalStorage failed.");
+                }
+
+                settings = (result?.Success ?? false) ? result.Value! : new();
+                settings.StateChanged += async (e) => await SaveSettings(e);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "GPSView: read LocalStorage failed.");
+                Logger.LogError(ex, null);
             }
+        }
 
-            settings = (result?.Success ?? false) ? result.Value! : new();
-        }
-        catch (Exception ex)
+        if (!rendered)
         {
-            Logger.LogError(ex, null);
-        }
-        finally
-        {
-            if (!rendered)
-            {
-                rendered = true;
-                StateHasChanged();
-            }
+            rendered = true;
+            StateHasChanged();
         }
     }
 
@@ -365,7 +366,6 @@
             return;
 
         settings.MapCamera = await args.Map.GetCameraOptionsAsync();
-        await SaveSettings();
     }
 
     private async Task OnStyleChanged(MapStyleDataEventArgs args)
@@ -386,7 +386,7 @@
         }
     }
 
-    private async Task SaveSettings()
+    private async Task SaveSettings(string e = "")
     {
         try
         {
