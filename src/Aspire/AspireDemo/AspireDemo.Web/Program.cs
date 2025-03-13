@@ -5,7 +5,8 @@ using AspireDemo.Web.Components;
 using AspireDemo.Web.Components.Pages;
 using AspireDemo.Web.Models;
 using AzureMapsControl.Components;
-using Darnton.Blazor.DeviceInterop.Geolocation;
+using Marqdouj.Html.Geolocation;
+using Marqdouj.Html.Geolocation.Models;
 using Marqdouj.Html.ResizeObserver;
 using Microsoft.FluentUI.AspNetCore.Components;
 
