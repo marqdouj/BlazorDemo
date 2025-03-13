@@ -1,3 +1,7 @@
+# NOTE: This repository is being archived. 
+## Please use https://github.com/marqdouj/Blazor-Demos
+
+
 # Blazor/Aspire Demo
 
 ## Containers
