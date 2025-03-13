@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.11.6" />
   </ItemGroup>
 
-	<PropertyGroup>
-		<CompressionEnabled>false</CompressionEnabled>
-	</PropertyGroup>
+    <PropertyGroup>
+	    <CompressionEnabled>false</CompressionEnabled>
+    </PropertyGroup>
 </Project>

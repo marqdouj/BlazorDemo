@@ -35,3 +35,10 @@ Once you configure your Azure Maps account, the 'AzureMaps' configuration sectio
 }
 ```
 ### NOTE: You can run the demo without configuring 'AzureMaps', but the configuration section is still required.
+
+### Had to add workaround for this issue: https://github.com/dotnet/aspnetcore/issues/59291
+```
+<PropertyGroup>
+	<CompressionEnabled>false</CompressionEnabled>
+</PropertyGroup>
+```
